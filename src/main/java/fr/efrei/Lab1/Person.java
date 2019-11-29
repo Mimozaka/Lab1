@@ -1,34 +1,36 @@
 package fr.efrei.Lab1;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 import javax.persistence.*;
 
 @Entity
 public class Person {
 	
-
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	private String name;
 	private int age;
 	
-	private List<Rent> rent = new ArrayList<Rent>();
-	
+	private ArrayList<Rent> rentList = new ArrayList<Rent>();
 	
 	public Person() {
-		super();
 	}
 
-	public Person(long id, String name, int age) {
-		super();
-		this.id = id;
+	public Person(String name, int age) {
 		this.name = name;
 		this.age = age;
 	}
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	public Rent RentVehicule(Vehicule vehicule,Date startDate, Date endDate)
+	{
+		Rent rent = new Rent(startDate,endDate,this,vehicule);
+		setRent(rent);
+		return rent;
+	}
+
 	public long getId() {
 		return id;
 	}
@@ -48,19 +50,19 @@ public class Person {
 		this.age = age;
 	}
 	
-	//@ManyToOne
-	@OneToMany(mappedBy="person", cascade=CascadeType.ALL, fetch = FetchType.EAGER) //Liste
-	public List<Rent> getRent() {
-		return rent;
+	@OneToMany
+	(targetEntity = Rent.class, mappedBy="person", cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+	public ArrayList<Rent> getRent() {
+		return rentList;
 	}
 
-	public void setRent(List<Rent> rent) {
-		this.rent = rent;
+	public void setRent(Rent rent) {
+		this.rentList.add(rent);
 	}
 
 	@Override
 	public String toString() {
-		return "Person [id=" + id + ", name=" + name + ", age=" + age + ", rent=" + rent + "]";
+		return "Person [id=" + id + ", name=" + name + ", age=" + age + ", rent=" + rentList.toString() + "]";
 	}
 	
 	

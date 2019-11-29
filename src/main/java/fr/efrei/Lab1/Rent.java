@@ -1,42 +1,44 @@
 package fr.efrei.Lab1;
 
 import java.util.ArrayList;
+
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Rent {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	private Date beginRent;
 	private Date endRent;
+	
+	@ManyToOne
 	private Person person;
+	@ManyToOne
 	private Vehicule vehicule;
 	
-	private List<Person> persons = new ArrayList<Person>();
-	private List<Vehicule> vehicules = new ArrayList<Vehicule>();
+	/*private List<Person> persons = new ArrayList<Person>();
+	private List<Vehicule> vehicules = new ArrayList<Vehicule>();*/
 	
 	public Rent() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Rent(Date beginRent, Date endRent) {
-		super();
+	public Rent(Date beginRent, Date endRent, Person person, Vehicule vehicule) {
 		this.beginRent = beginRent;
 		this.endRent = endRent;
+		this.person = person;
+		this.vehicule = vehicule;
 	}
 
 	public Date getBeginRent() {
@@ -55,32 +57,26 @@ public class Rent {
 		this.endRent = endRent;
 	}
 	
-	@ManyToMany
-	//@OneToMany(mappedBy="rent", cascade=CascadeType.ALL, fetch = FetchType.EAGER)
-	public List<Person> getPerson() {
-		return persons;
+	public Person getPerson() {
+		return person;
 	}
 
 	public void setPerson(Person person) {
 		this.person = person;
 	}
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	public long getId() {
 		return id;
 	}
-
+	
 	public void setId(long id) {
 		this.id = id;
 	}
 	
-	@ManyToMany
-	//@OneToMany(mappedBy="rent", cascade=CascadeType.ALL, fetch = FetchType.EAGER)
-	public List<Vehicule> getVehicule() {
-		return vehicules;
+	public Vehicule getVehicule() {
+		return vehicule;
 	}
-
+	
 	public void setVehicule(Vehicule vehicule) {
 		this.vehicule = vehicule;
 	}

@@ -7,28 +7,25 @@ import javax.persistence.*;
 @Entity
 public class Vehicule {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	private String name;
-	private int plateNumber;
+	private String plateNumber;
 	
-	private List<Rent> rent = new ArrayList<Rent>();
+	private ArrayList<Rent> rent = new ArrayList<Rent>();
 		
-	public Vehicule()
-	{
+	public Vehicule(){
 		super();
 	}
 	
-	public Vehicule (String name, int plateNum)
-	{
+	public Vehicule (String name, String plateNum){
 		super();
 		this.name = name;
 		this.plateNumber = plateNum;
 	}
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	public long getId()
-	{
+
+	public long getId(){
 		return id;
 	}
 	
@@ -44,29 +41,26 @@ public class Vehicule {
 		this.name = name;
 	}
 	
-	public int getPlateNumber() {
+	public String getPlateNumber() {
 		return plateNumber;
 	}
 
-	public void setPlateNumber(int plate) {
+	public void setPlateNumber(String plate) {
 		this.plateNumber = plate;
 	}
 	
 	//@ManyToOne
 	@OneToMany(mappedBy="vehicule", cascade=CascadeType.ALL, fetch = FetchType.EAGER)
-	public List<Rent> getRent() {
+	public ArrayList<Rent> getRent() {
 		return rent;
 	}
 
-	public void setRent(List<Rent> rent) {
+	public void setRent(ArrayList<Rent> rent) {
 		this.rent = rent;
 	}
 
-	
 	@Override
 	public String toString() {
 		return "Vehicule [id=" + id + ", name=" + name + ", plateNumber=" + plateNumber + ", rent=" + rent + "]";
-	}
-	
-	
+	}	
 }
